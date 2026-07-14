@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jessy Diez Couverture</title>
+  <link rel="icon" type="image/png" href="ressources/logos/favicon.png" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     * {
@@ -47,6 +48,39 @@
       height: 55px;
       width: auto;
       object-fit: contain;
+    }
+
+    /* Menu (nav + actions groupés) */
+    .header-menu {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+
+    /* Sur grand écran, le menu de navigation est centré sur le header */
+    @media (min-width: 901px) {
+      .header-menu nav {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    .hamburger-btn,
+    .hamburger-close {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 24px;
+      color: #1a1a1a;
+      padding: 8px;
+      line-height: 1;
+    }
+
+    .nav-overlay {
+      display: none;
     }
 
     /* Navigation */
@@ -203,6 +237,13 @@
       font-size: 52px;
       font-weight: 900;
       line-height: 1;
+    }
+
+    .badge-toit {
+      display: block;
+      width: 180px;
+      height: auto;
+      margin: 0 auto 10px;
     }
 
     .badge-experience .label-bottom {
@@ -602,9 +643,9 @@
     .apropos-badge {
       position: absolute;
       bottom: 40px;
-      left: -20px;
+      left: 0px;
       background: #f5c400;
-      padding: 20px 28px;
+      padding: 20px 32px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -689,15 +730,59 @@
       grid-row: 1 / 3;
     }
 
-    .real-card img {
+    .real-carousel {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .real-slides {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .real-slides img {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.6s ease;
+      opacity: 0;
+      transition: opacity 0.7s ease, transform 0.7s ease;
+      transform: scale(1.05);
     }
 
-    .real-card:hover img {
+    .real-slides img.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .real-card:hover .real-slides img.active {
       transform: scale(1.07);
+    }
+
+    .real-progress {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .real-progress rect {
+      fill: none;
+      stroke: #f5c400;
+      stroke-width: 3;
+      stroke-linecap: square;
+      will-change: stroke-dashoffset;
+      animation: progressBorder 5s linear infinite;
+    }
+
+    @keyframes progressBorder {
+      from { stroke-dashoffset: var(--perimeter); }
+      to { stroke-dashoffset: 0; }
     }
 
     .real-overlay {
@@ -710,6 +795,7 @@
       padding: 24px;
       opacity: 0;
       transition: opacity 0.35s ease;
+      pointer-events: none;
     }
 
     .real-card:hover .real-overlay {
@@ -930,7 +1016,7 @@
     }
 
     .cta-left {
-      width: 45%;
+      width: 46%;
       padding: 70px 60px;
       display: flex;
       flex-direction: column;
@@ -997,48 +1083,25 @@
       opacity: 0.85;
     }
 
-    .cta-right {
-      flex: 1;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .cta-right img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .cta-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.55);
-      z-index: 1;
-    }
-
-    .cta-infos {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
+    .cta-contact-list {
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      padding: 60px;
-      gap: 28px;
+      gap: 22px;
+      margin-top: 36px;
     }
 
     .cta-info-item {
       display: flex;
       align-items: flex-start;
       gap: 18px;
-      color: #ffffff;
+      color: #1a1a1a;
     }
 
     .cta-info-item i {
       width: 44px;
       height: 44px;
-      background: #f5c400;
-      color: #1a1a1a;
+      background: #1a1a1a;
+      color: #f5c400;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -1058,14 +1121,30 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 2px;
-      color: rgba(255, 255, 255, 0.6);
+      color: rgba(26, 26, 26, 0.55);
     }
 
     .cta-info-value {
       font-size: 16px;
       font-weight: 700;
       line-height: 1.5;
-      color: #ffffff;
+      color: #1a1a1a;
+    }
+
+    .cta-reveal-phone {
+      background: none;
+      border: none;
+      border-bottom: 2px solid #1a1a1a;
+      padding: 0;
+      font-size: 14px;
+      font-weight: 700;
+      color: #1a1a1a;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .cta-reveal-phone:hover {
+      opacity: 0.7;
     }
 
     .cta-status {
@@ -1077,15 +1156,138 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1px;
-      color: rgba(255, 255, 255, 0.8);
+      color: rgba(26, 26, 26, 0.7);
     }
 
     .status-dot {
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: #ffffff;
+      background: #1a1a1a;
       animation: blink 1.2s infinite;
+    }
+
+    .cta-right {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      background: #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px;
+    }
+
+    .cta-form {
+      width: 100%;
+      max-width: 460px;
+    }
+
+    .cta-form h3 {
+      font-size: 26px;
+      font-weight: 900;
+      color: #ffffff;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .cta-form > p {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 14px;
+    }
+
+    .form-group {
+      flex: 1;
+      margin-bottom: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+      padding: 12px 14px;
+      font-size: 14px;
+      font-family: inherit;
+      color: #ffffff;
+      outline: none;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: rgba(255, 255, 255, 0.35);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: #f5c400;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .form-group select option {
+      color: #1a1a1a;
+    }
+
+    .form-group textarea {
+      resize: none;
+      min-height: 90px;
+    }
+
+    .cta-form-submit {
+      width: 100%;
+      background: #f5c400;
+      color: #1a1a1a;
+      border: none;
+      padding: 16px;
+      font-size: 14px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: background 0.2s ease;
+    }
+
+    .cta-form-submit:hover {
+      background: #ffffff;
+    }
+
+    .cta-form-success {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      margin-top: 16px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #22c55e;
+    }
+
+    .cta-form-success.visible {
+      display: flex;
     }
 
     .cta-status.open .status-dot {
@@ -1342,6 +1544,540 @@
       transition: none;
     }
 
+    /* ===================================================== */
+    /* ======================= RESPONSIVE =================== */
+    /* ===================================================== */
+
+    /* ---- Navigation mobile (hamburger) : <= 900px ---- */
+    @media (max-width: 900px) {
+      header {
+        padding: 0 20px;
+      }
+
+      .hamburger-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .header-menu {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        top: auto;
+        left: auto;
+        height: auto;
+        max-height: calc(100vh - 40px);
+        width: min(300px, 85vw);
+        background: rgba(255, 255, 255, 0.65);
+        backdrop-filter: blur(24px) saturate(180%);
+        -webkit-backdrop-filter: blur(24px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 0;
+        padding: 44px 28px 28px;
+        transform: translateY(24px) scale(0.96);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.3s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.25s ease;
+        transform-origin: bottom right;
+        z-index: 1002;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+        overflow-y: auto;
+      }
+
+      .header-menu.open {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .hamburger-close {
+        display: flex;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+
+      .header-menu nav {
+        width: 100%;
+        margin-bottom: 32px;
+      }
+
+      .header-menu nav ul {
+        flex-direction: column;
+        gap: 22px;
+        width: 100%;
+      }
+
+      .header-menu nav ul li a {
+        font-size: 17px;
+      }
+
+      .header-menu .header-actions {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        gap: 12px;
+      }
+
+      .header-menu .header-actions a {
+        width: 100%;
+      }
+
+      .nav-overlay.visible {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.25);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        z-index: 1001;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .nav-overlay.visible.active {
+        opacity: 1;
+      }
+    }
+
+    /* ---- Tablette : <= 1024px ---- */
+    @media (max-width: 1024px) {
+      .services-section,
+      .apropos-section,
+      .cta-section {
+        flex-direction: column;
+        min-height: auto;
+      }
+
+      .services-left,
+      .apropos-left,
+      .cta-left {
+        width: 100%;
+      }
+
+      .services-left::after,
+      .apropos-left::after,
+      .cta-left::after {
+        display: none;
+      }
+
+      .services-right {
+        padding: 50px 40px;
+      }
+
+      .apropos-right {
+        min-height: 420px;
+      }
+
+      .cta-right {
+        min-height: 500px;
+      }
+
+      .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .realisations-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 220px 220px 220px;
+      }
+
+      .real-card--large {
+        grid-column: 1 / 3;
+        grid-row: 1 / 2;
+      }
+
+      .hero-content h1 {
+        font-size: 60px;
+      }
+
+      .hero-content {
+        left: 60px;
+      }
+
+      .badge-experience {
+        right: 40px;
+      }
+    }
+
+    /* ---- Mobile : <= 768px ---- */
+    @media (max-width: 768px) {
+      .header-logo img {
+        height: 42px;
+      }
+
+      section {
+        scroll-margin-top: 70px;
+      }
+
+      /* Hero */
+      .hero {
+        height: auto;
+        min-height: 100vh;
+      }
+
+      .triangle-top-left {
+        width: 220px;
+      }
+
+      .triangle-bottom-right {
+        border-width: 0 0 260px 260px;
+      }
+
+      body.loaded-hero .curtain-left {
+        clip-path: polygon(0 0, 220px 0, 0 100%);
+      }
+
+      body.loaded-hero .curtain-right {
+        clip-path: polygon(100% calc(100% - 260px), 100% 100%, calc(100% - 260px) 100%);
+      }
+
+      .hero-content {
+        left: 24px;
+        right: 24px;
+        max-width: calc(100% - 48px);
+      }
+
+      .hero-content h1 {
+        font-size: 40px;
+      }
+
+      .hero-buttons {
+        margin-left: 0;
+        margin-top: 8px;
+      }
+
+      .badge-experience {
+        bottom: 24px;
+        right: 24px;
+        text-align: right;
+      }
+
+      .badge-toit {
+        width: 60px;
+        margin: 0 0 6px auto;
+      }
+
+      .badge-experience .number {
+        font-size: 32px;
+      }
+
+      /* Services */
+      .services-section {
+        padding: 0;
+      }
+
+      .services-left {
+        padding: 50px 24px 30px;
+      }
+
+      .services-left h2 {
+        font-size: 30px;
+      }
+
+      .services-right {
+        padding: 30px 24px 50px;
+        overflow: hidden;
+      }
+
+      .services-grid {
+        display: flex;
+        grid-template-columns: unset;
+        gap: 12px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 6px;
+        margin: 0 -24px;
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+
+      .services-grid::-webkit-scrollbar {
+        display: none;
+      }
+
+      .service-card {
+        scroll-snap-align: start;
+        flex: 0 0 240px;
+        min-width: 240px;
+      }
+
+      /* À propos */
+      .apropos-left {
+        padding: 50px 24px 30px;
+      }
+
+      .apropos-left h2 {
+        font-size: 30px;
+      }
+
+      .apropos-right {
+        display: none;
+      }
+
+      /* Réalisations */
+      .realisations-section {
+        padding: 50px 24px;
+      }
+
+      .realisations-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+
+      .realisations-header-left h2 {
+        font-size: 28px;
+      }
+
+      .realisations-grid {
+        display: flex;
+        grid-template-columns: unset;
+        grid-template-rows: unset;
+        gap: 12px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        margin: 0 -24px;
+        padding: 0 24px 6px;
+      }
+
+      .realisations-grid::-webkit-scrollbar {
+        display: none;
+      }
+
+      .real-card,
+      .real-card--large {
+        scroll-snap-align: start;
+        grid-column: auto;
+        grid-row: auto;
+        flex: 0 0 260px;
+        min-width: 260px;
+        height: 260px;
+      }
+
+      .real-overlay {
+        opacity: 1;
+        background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 65%);
+      }
+
+      /* Avis */
+      .avis-marquee:hover .avis-track {
+        animation-play-state: running;
+      }
+
+      .avis-header {
+        padding: 0 24px;
+      }
+
+      .avis-header h2 {
+        font-size: 28px;
+      }
+
+      .avis-card {
+        width: 280px;
+      }
+
+      .avis-stats {
+        padding: 24px 12px;
+        flex-wrap: nowrap;
+        gap: 8px;
+        justify-content: space-between;
+      }
+
+      .stat-item {
+        gap: 4px;
+        min-width: 0;
+      }
+
+      .stat-number {
+        font-size: 22px;
+      }
+
+      .stat-label {
+        font-size: 9px;
+        letter-spacing: 0.5px;
+        text-align: center;
+      }
+
+      .stat-divider {
+        height: 32px;
+      }
+
+      /* Contact CTA */
+      .cta-left {
+        padding: 50px 24px 30px;
+      }
+
+      .cta-left h2 {
+        font-size: 32px;
+      }
+
+      .cta-contact-list {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px 16px;
+      }
+
+      .cta-info-item {
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .cta-info-item i {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+      }
+
+      .cta-info-value {
+        font-size: 14px;
+        word-break: break-word;
+      }
+
+      .cta-right {
+        padding: 30px 24px 50px;
+        min-height: auto;
+      }
+
+      .form-row {
+        flex-direction: column;
+        gap: 0;
+      }
+
+      /* Footer */
+      footer {
+        padding: 50px 24px 0;
+      }
+
+      .footer-main {
+        flex-direction: column;
+        gap: 40px;
+      }
+
+      .footer-brand {
+        max-width: 100%;
+      }
+
+      .footer-links {
+        gap: 40px;
+        flex-wrap: wrap;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 20px 0 24px;
+      }
+    }
+
+    /* ---- Petit mobile : <= 480px ---- */
+    @media (max-width: 480px) {
+      .header-actions .btn-devis span,
+      .btn-phone {
+        white-space: normal;
+      }
+
+      .hero-content h1 {
+        font-size: 32px;
+      }
+
+      .hero-content p.subtitle {
+        font-size: 11px;
+        letter-spacing: 2px;
+      }
+
+      .hero-buttons a {
+        flex: 1;
+        justify-content: center;
+      }
+
+      .badge-experience {
+        bottom: 16px;
+        right: 16px;
+      }
+
+      .triangle-top-left {
+        width: 140px;
+      }
+
+      .triangle-bottom-right {
+        border-width: 0 0 160px 160px;
+      }
+
+      body.loaded-hero .curtain-left {
+        clip-path: polygon(0 0, 140px 0, 0 100%);
+      }
+
+      body.loaded-hero .curtain-right {
+        clip-path: polygon(100% calc(100% - 160px), 100% 100%, calc(100% - 160px) 100%);
+      }
+
+      .badge-toit {
+        width: 46px;
+      }
+
+      .badge-experience .number {
+        font-size: 26px;
+      }
+
+      .badge-experience .label-bottom,
+      .badge-experience .label-top {
+        font-size: 10px;
+      }
+
+      .services-left h2,
+      .apropos-left h2,
+      .cta-left h2,
+      .realisations-header-left h2,
+      .avis-header h2 {
+        font-size: 24px;
+      }
+
+      .real-card,
+      .real-card--large {
+        flex: 0 0 220px;
+        min-width: 220px;
+        height: 220px;
+      }
+
+      .avis-stats {
+        padding: 18px 8px;
+        gap: 4px;
+      }
+
+      .stat-number {
+        font-size: 17px;
+      }
+
+      .stat-label {
+        font-size: 7px;
+        letter-spacing: 0.2px;
+      }
+
+      .stat-divider {
+        height: 24px;
+      }
+
+      .avis-card {
+        width: 240px;
+        padding: 22px 18px;
+      }
+
+      .note-globale {
+        flex-wrap: wrap;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -1355,31 +2091,46 @@
   <header>
     <!-- Logo -->
     <div class="header-logo">
-      <img src="logo.png" alt="Logo Couvreur Pro" />
+      <img src="ressources/logos/logoV2.png" alt="Logo Couvreur Pro" />
     </div>
 
-    <!-- Navigation -->
-    <nav>
-      <ul>
-        <li><a href="#accueil">Accueil</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#apropos">À propos</a></li>
-        <li><a href="#realisations">Réalisations</a></li>
-        <li><a href="#avis">Avis</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
+    <!-- Bouton hamburger (mobile) -->
+    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Ouvrir le menu" aria-expanded="false">
+      <i class="fa-solid fa-grip"></i>
+    </button>
 
-    <!-- Boutons -->
-    <div class="header-actions">
-      <a href="tel:0609361369" class="btn-phone">
-        <i class="fa-solid fa-phone"></i>
-        06 09 36 13 69
-      </a>
-      <a href="#contact" class="btn-devis">
-        Devis gratuit <i class="fa-solid fa-arrow-right"></i>
-      </a>
+    <!-- Menu (nav + actions) -->
+    <div class="header-menu" id="headerMenu">
+      <button class="hamburger-close" id="hamburgerClose" aria-label="Fermer le menu">
+        <i class="fa-regular fa-circle-xmark"></i>
+      </button>
+
+      <!-- Navigation -->
+      <nav>
+        <ul>
+          <li><a href="#accueil">Accueil</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#apropos">À propos</a></li>
+          <li><a href="#realisations">Réalisations</a></li>
+          <li><a href="#avis">Avis</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Boutons -->
+      <div class="header-actions">
+        <a href="tel:0609361369" class="btn-phone">
+          <i class="fa-solid fa-phone"></i>
+          06 09 36 13 69
+        </a>
+        <a href="#contact" class="btn-devis">
+          Devis gratuit <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
     </div>
+
+    <!-- Overlay mobile -->
+    <div class="nav-overlay" id="navOverlay"></div>
   </header>
 
   <!-- Section d'accueil -->
@@ -1388,6 +2139,7 @@
       <div class="triangle-top-left"></div>
       <div class="triangle-bottom-right"></div>
       <div class="badge-experience">
+        <img src="ressources/logos/toit.png" alt="Toit" class="badge-toit" />
         <span class="label-top">Plus de</span>
         <span class="number dynamic-years" data-target="26" data-suffix=" ans">0 ans</span>
         <span class="label-bottom">d'expériences</span>
@@ -1470,7 +2222,7 @@
     </div>
     <div class="apropos-right">
       <div class="apropos-img-wrapper">
-        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80" alt="Artisan couvreur" />
+        <img src="ressources/photos/hero.jpeg" alt="Artisan couvreur de qualité" />
         <div class="apropos-badge">
           <span class="badge-year">2013</span>
           <span class="badge-label">Fondée en</span>
@@ -1493,38 +2245,82 @@
     </div>
     <div class="realisations-grid">
       <div class="real-card real-card--large">
-        <img src="https://images.unsplash.com/photo-1632207691143-643e2a9a9361?w=800&q=80" alt="Réalisation 1" />
+        <div class="real-carousel">
+          <div class="real-slides">
+            <img src="ressources/photos/couverture1.jpeg" alt="Réalisation 1" />
+            <img src="ressources/photos/couverture2.jpeg" alt="Réalisation 2" />
+            <img src="ressources/photos/couverture3.jpeg" alt="Réalisation 3" />
+            <img src="ressources/photos/couverture4.jpeg" alt="Réalisation 4" />
+            <img src="ressources/photos/couverture5.jpg" alt="Réalisation 5" />
+            <img src="ressources/photos/couverture6.jpeg" alt="Réalisation 6" />
+            <img src="ressources/photos/couverture7.jpeg" alt="Réalisation 7" />
+            <img src="ressources/photos/couverture8.jpeg" alt="Réalisation 8" />
+            <img src="ressources/photos/couverture9.jpeg" alt="Réalisation 9" />
+            <img src="ressources/photos/couverture10.jpeg" alt="Réalisation 10" />
+            <img src="ressources/photos/couverture11.jpg" alt="Réalisation 11" />
+            <img src="ressources/photos/couverture12.jpeg" alt="Réalisation 12" />
+            <img src="ressources/photos/couverture12.jpg" alt="Réalisation 12b" />
+            <img src="ressources/photos/couverture13.jpeg" alt="Réalisation 13" />
+          </div>
+        </div>
         <div class="real-overlay">
-          <span class="realisation-tag">Couverture</span>
-          <p>Réfection complète toiture ardoise</p>
+          <span class="realisation-tag">Couverture/Ardoiserie</span>
+          <p>Faites rénover votre toiture</p>
         </div>
       </div>
       <div class="real-card">
-        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80" alt="Réalisation 2" />
+        <div class="real-carousel">
+          <div class="real-slides">
+            <img src="ressources/photos/zinguerie-1.jpg" alt="Zinguerie 1" />
+            <img src="ressources/photos/zinguerie2.jpeg" alt="Zinguerie 2" />
+            <img src="ressources/photos/zinguerie3.jpeg" alt="Zinguerie 3" />
+            <img src="ressources/photos/zinguerie4.jpeg" alt="Zinguerie 4" />
+            <img src="ressources/photos/zinguerie5.jpeg" alt="Zinguerie 5" />
+            <img src="ressources/photos/zinguerie6.jpeg" alt="Zinguerie 6" />
+            <img src="ressources/photos/zinguerie7.jpeg" alt="Zinguerie 7" />
+          </div>
+        </div>
         <div class="real-overlay">
           <span class="realisation-tag">Zinguerie</span>
-          <p>Pose gouttières zinc</p>
+          <p>Pose d'éléments de toit en zinc</p>
         </div>
       </div>
       <div class="real-card">
-        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="Réalisation 3" />
+        <div class="real-carousel">
+          <div class="real-slides">
+            <img src="ressources/photos/isolation1.jpeg" alt="Isolation 1" />
+            <img src="ressources/photos/isolation2.jpeg" alt="Isolation 2" />
+            <img src="ressources/photos/isolation3.jpeg" alt="Isolation 3" />
+            <img src="ressources/photos/isolation4.jpeg" alt="Isolation 4" />
+            <img src="ressources/photos/isolation5.jpeg" alt="Isolation 5" />
+            <img src="ressources/photos/isolation6.jpeg" alt="Isolation 6" />
+          </div>
+        </div>
         <div class="real-overlay">
           <span class="realisation-tag">Isolation</span>
-          <p>Isolation thermique combles</p>
+          <p>Isolation thermique de vos combles</p>
         </div>
       </div>
       <div class="real-card">
-        <img src="https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=600&q=80" alt="Réalisation 4" />
+        <div class="real-carousel">
+          <div class="real-slides">
+            <img src="ressources/photos/réfection1.jpeg" alt="Réfection 1" />
+          </div>
+        </div>
         <div class="real-overlay">
-          <span class="realisation-tag">Réparation</span>
-          <p>Réparation fuite tuiles</p>
+          <span class="realisation-tag">Réparations</span>
+          <p>Réparation de vos toitures</p>
         </div>
       </div>
       <div class="real-card">
-        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80" alt="Réalisation 5" />
+        <div class="real-carousel">
+          <div class="real-slides">
+            <img src="ressources/photos/entretient-1.jpg" alt="Entretient 1" />
+          </div>
+        </div>
         <div class="real-overlay">
           <span class="realisation-tag">Entretien</span>
-          <p>Démoussage hydrofuge</p>
+          <p>Démoussage & Ramonage</p>
         </div>
       </div>
     </div>
@@ -1575,12 +2371,12 @@
     </div>
     <div class="avis-stats">
       <div class="stat-item">
-        <span class="stat-number" data-target="500" data-suffix="+">0</span>
+        <span class="stat-number" data-target="20" data-suffix="+">0</span>
         <span class="stat-label">Clients satisfaits</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
-        <span class="stat-number" data-target="1000" data-suffix="+">0</span>
+        <span class="stat-number" data-target="20" data-suffix="+">0</span>
         <span class="stat-label">Projets réalisés</span>
       </div>
       <div class="stat-divider"></div>
@@ -1605,20 +2401,14 @@
       </div>
       <h2>UN PROJET ?<br>PARLONS-<span>EN.</span></h2>
       <p>Demandez votre devis gratuit et sans engagement. Nous vous répondons sous 24h pour étudier votre projet et vous accompagner de A à Z.</p>
-      <div style="display:flex;gap:12px;margin-top:36px;">
-        <a href="tel:0609361369" class="btn-devis" style="display:inline-flex;"><i class="fa-solid fa-phone"></i> 06 09 36 13 69</a>
-        <a href="mailto:jessy.diez@hotmail.fr" class="btn-services" style="display:inline-flex;background:#ffffff;color:#1a1a1a;border-color:#ffffff;"><i class="fa-solid fa-envelope"></i> Envoyer un mail</a>
-      </div>
-    </div>
-    <div class="cta-right">
-      <div class="cta-overlay"></div>
-      <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80" alt="Artisan couvreur au travail" />
-      <div class="cta-infos">
+      <div class="cta-contact-list" style="margin-top:36px;">
         <div class="cta-info-item">
           <i class="fa-solid fa-phone"></i>
           <div>
             <span class="cta-info-label">Téléphone</span>
-            <span class="cta-info-value">06 09 36 13 69</span>
+            <span class="cta-info-value cta-phone-hidden" id="ctaPhoneValue" data-phone="06 09 36 13 69">
+              <button type="button" class="cta-reveal-phone" id="ctaRevealPhone">Afficher le numéro</button>
+            </span>
           </div>
         </div>
         <div class="cta-info-item">
@@ -1645,6 +2435,48 @@
         </div>
       </div>
     </div>
+    <div class="cta-right">
+      <form class="cta-form" id="ctaForm" action="https://formspree.io/f/xnjendwz" method="POST">
+        <h3>Demande de devis</h3>
+        <p>Décrivez votre projet de toiture, nous vous recontactons rapidement.</p>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="ctaName">Nom complet</label>
+            <input type="text" id="ctaName" name="name" placeholder="Votre nom" required>
+          </div>
+          <div class="form-group">
+            <label for="ctaPhone">Téléphone</label>
+            <input type="tel" id="ctaPhone" name="phone" placeholder="06 XX XX XX XX" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="ctaEmail">Email</label>
+          <input type="email" id="ctaEmail" name="email" placeholder="vous@exemple.fr" required>
+        </div>
+        <div class="form-group">
+          <label for="ctaService">Type de service</label>
+          <select id="ctaService" name="service" required>
+            <option value="" selected disabled>Sélectionnez un service</option>
+            <option value="couverture">Couverture / Ardoiserie</option>
+            <option value="zinguerie">Zinguerie / Gouttières</option>
+            <option value="reparation">Réparation / Réfection</option>
+            <option value="isolation">Isolation des combles</option>
+            <option value="entretien">Démoussage / Ramonage</option>
+            <option value="urgence">Urgence toiture</option>
+            <option value="autre">Autre demande</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="ctaMessage">Message</label>
+          <textarea id="ctaMessage" name="message" placeholder="Décrivez votre projet..."></textarea>
+        </div>
+        <input type="text" name="website" id="ctaHoneypot" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none;">
+        <input type="hidden" name="form_time" id="ctaFormTime">
+        <button type="submit" class="cta-form-submit"><i class="fa-solid fa-paper-plane"></i> Envoyer ma demande</button>
+        <div class="cta-form-success" id="ctaFormSuccess"><i class="fa-solid fa-circle-check"></i> Merci, votre demande a bien été envoyée !</div>
+        <div class="cta-form-error" id="ctaFormError" style="display:none;color:#ef4444;font-size:13px;font-weight:700;margin-top:12px;"><i class="fa-solid fa-triangle-exclamation"></i> Une erreur s'est produite. Veuillez réessayer.</div>
+      </form>
+    </div>
   </section>
 
   <script>
@@ -1666,6 +2498,40 @@
     window.addEventListener('scroll', () => {
       header.classList.toggle('scrolled', window.scrollY > 10);
     });
+
+    // Menu hamburger (mobile)
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const hamburgerClose = document.getElementById('hamburgerClose');
+    const headerMenu = document.getElementById('headerMenu');
+    const navOverlay = document.getElementById('navOverlay');
+
+    function openMobileMenu() {
+      headerMenu.classList.add('open');
+      navOverlay.classList.add('visible');
+      requestAnimationFrame(() => navOverlay.classList.add('active'));
+      hamburgerBtn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileMenu() {
+      headerMenu.classList.remove('open');
+      navOverlay.classList.remove('active');
+      setTimeout(() => navOverlay.classList.remove('visible'), 300);
+      hamburgerBtn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    if (hamburgerBtn) {
+      hamburgerBtn.addEventListener('click', openMobileMenu);
+      hamburgerClose.addEventListener('click', closeMobileMenu);
+      navOverlay.addEventListener('click', closeMobileMenu);
+      headerMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', closeMobileMenu);
+      });
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 900) closeMobileMenu();
+      });
+    }
 
     // Animation de chargement contextuelle
     window.addEventListener('load', () => {
@@ -1771,6 +2637,76 @@
     // Duplication des cartes pour un défilement infini sans couture
     avisTrack.innerHTML += avisTrack.innerHTML;
 
+    // Carrousels section Réalisations (autoplay synchronisé avec bordure de progression)
+    const realCarousels = [];
+    const SVG_NS = 'http://www.w3.org/2000/svg';
+
+    function createProgressBorder(carousel) {
+      const svg = document.createElementNS(SVG_NS, 'svg');
+      svg.setAttribute('class', 'real-progress');
+      const rect = document.createElementNS(SVG_NS, 'rect');
+      svg.appendChild(rect);
+      carousel.appendChild(svg);
+
+      function sizeToCard() {
+        const w = carousel.clientWidth;
+        const h = carousel.clientHeight;
+        const inset = 1.5;
+        svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+        rect.setAttribute('x', inset);
+        rect.setAttribute('y', inset);
+        rect.setAttribute('width', w - inset * 2);
+        rect.setAttribute('height', h - inset * 2);
+        const perimeter = 2 * ((w - inset * 2) + (h - inset * 2));
+        rect.style.setProperty('--perimeter', perimeter);
+        rect.setAttribute('stroke-dasharray', perimeter);
+        rect.style.strokeDashoffset = perimeter;
+      }
+
+      sizeToCard();
+      new ResizeObserver(sizeToCard).observe(carousel);
+      return rect;
+    }
+
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    document.querySelectorAll('.real-carousel').forEach(carousel => {
+      const track = carousel.querySelector('.real-slides');
+      const slides = Array.from(track.querySelectorAll('img'));
+      if (slides.length <= 1) {
+        carousel.classList.add('single-image');
+        slides[0]?.classList.add('active');
+        return;
+      }
+
+      createProgressBorder(carousel);
+      const queue = shuffle([...Array(slides.length).keys()]);
+      const state = { slides, queue, queuePos: 0 };
+      slides[queue[0]].classList.add('active');
+      realCarousels.push(state);
+    });
+
+    function advanceAllCarousels() {
+      realCarousels.forEach(state => {
+        const { slides, queue } = state;
+        slides[queue[state.queuePos]].classList.remove('active');
+        state.queuePos++;
+        if (state.queuePos >= queue.length) {
+          shuffle(queue);
+          state.queuePos = 0;
+        }
+        slides[queue[state.queuePos]].classList.add('active');
+      });
+    }
+
+    setInterval(advanceAllCarousels, 5000);
+
     // Statut dynamique ouverture
     function updateStatus() {
       const now = new Date();
@@ -1805,6 +2741,60 @@
     updateStatus();
     setInterval(updateStatus, 60000);
 
+    // Numéro de téléphone masqué (anti-scraping)
+    const ctaRevealPhone = document.getElementById('ctaRevealPhone');
+    if (ctaRevealPhone) {
+      ctaRevealPhone.addEventListener('click', () => {
+        const container = document.getElementById('ctaPhoneValue');
+        const phone = container.dataset.phone;
+        container.classList.remove('cta-phone-hidden');
+        container.innerHTML = `<a href="tel:${phone.replace(/\s/g, '')}" style="color:inherit;">${phone}</a>`;
+      });
+    }
+
+    // Formulaire de contact (devis) + anti-spam
+    const ctaForm = document.getElementById('ctaForm');
+    if (ctaForm) {
+      const formTimeEl = document.getElementById('ctaFormTime');
+      formTimeEl.value = Date.now();
+
+      ctaForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const honeypot = document.getElementById('ctaHoneypot').value;
+        const elapsed = Date.now() - parseInt(formTimeEl.value, 10);
+        const errorEl = document.getElementById('ctaFormError');
+        const successEl = document.getElementById('ctaFormSuccess');
+        const submitButton = ctaForm.querySelector('.cta-form-submit');
+
+        if (honeypot || elapsed < 3000) {
+          errorEl.style.display = 'flex';
+          return;
+        }
+
+        errorEl.style.display = 'none';
+        successEl.classList.remove('visible');
+        submitButton.disabled = true;
+
+        try {
+          const response = await fetch(ctaForm.action, {
+            method: 'POST',
+            body: new FormData(ctaForm),
+            headers: { Accept: 'application/json' }
+          });
+
+          if (!response.ok) throw new Error('Formspree submission failed');
+
+          successEl.classList.add('visible');
+          ctaForm.reset();
+          formTimeEl.value = Date.now();
+        } catch (error) {
+          errorEl.style.display = 'flex';
+        } finally {
+          submitButton.disabled = false;
+        }
+      });
+    }
+
     // Année du copyright dynamique
     document.addEventListener('DOMContentLoaded', () => {
       const footerYear = document.getElementById('footerYear');
@@ -1817,13 +2807,11 @@
     <div class="footer-main">
       <div class="footer-brand">
         <div class="footer-logo">
-          <img src="logo.png" alt="Logo Couvreur Pro" />
+          <img src="ressources/logos/logoV2.png" alt="Logo Couvreur Pro" />
         </div>
         <p>Protégeons ce qui compte.<br>Artisan couvreur depuis plus de <span class="dynamic-years-text"></span>26 ans</span>.</p>
         <div class="footer-socials">
-          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-          <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="https://www.facebook.com/diezjessycouverture/" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
         </div>
       </div>
       <div class="footer-links">
@@ -1842,10 +2830,10 @@
           <h4>Nos services</h4>
           <ul>
             <li><a href="#services">Couverture</a></li>
-            <li><a href="#services">Réparation</a></li>
+            <li><a href="#services">Réparation / Réfaction</a></li>
             <li><a href="#services">Zinguerie</a></li>
             <li><a href="#services">Isolation</a></li>
-            <li><a href="#services">Entretien</a></li>
+            <li><a href="#services">Démoussage / Ramonage</a></li>
             <li><a href="#services">Urgence</a></li>
           </ul>
         </div>
