@@ -13,6 +13,11 @@
       box-sizing: border-box;
     }
 
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-image: url('https://www.guide-artisan.fr/img/actualites/comment-devenir-couvreur-zingueur.jpg');
@@ -50,6 +55,10 @@
       object-fit: contain;
     }
 
+    .header-logo .logo-mobile {
+      display: none;
+    }
+
     /* Menu (nav + actions groupés) */
     .header-menu {
       display: flex;
@@ -58,7 +67,7 @@
     }
 
     /* Sur grand écran, le menu de navigation est centré sur le header */
-    @media (min-width: 901px) {
+    @media (min-width: 1280px) {
       .header-menu nav {
         position: absolute;
         left: 50%;
@@ -182,6 +191,7 @@
 
     .hero {
       height: 100vh;
+      height: 100dvh;
       background-image: url('hero.jpg');
       background-size: cover;
       background-position: center;
@@ -1548,8 +1558,8 @@
     /* ======================= RESPONSIVE =================== */
     /* ===================================================== */
 
-    /* ---- Navigation mobile (hamburger) : <= 900px ---- */
-    @media (max-width: 900px) {
+    /* ---- Navigation mobile (hamburger) : <= 1279px ---- */
+    @media (max-width: 1279px) {
       header {
         padding: 0 20px;
       }
@@ -1703,12 +1713,30 @@
       .badge-experience {
         right: 40px;
       }
+
+      .footer-main {
+        flex-wrap: wrap;
+        gap: 40px;
+      }
+
+      .footer-links {
+        gap: 40px;
+        flex-wrap: wrap;
+      }
     }
 
     /* ---- Mobile : <= 768px ---- */
     @media (max-width: 768px) {
       .header-logo img {
         height: 42px;
+      }
+
+      .header-logo .logo-desktop {
+        display: none;
+      }
+
+      .header-logo .logo-mobile {
+        display: block;
       }
 
       section {
@@ -1719,6 +1747,8 @@
       .hero {
         height: auto;
         min-height: 100vh;
+        min-height: 100dvh;
+        background-attachment: scroll;
       }
 
       .triangle-top-left {
@@ -2091,7 +2121,8 @@
   <header>
     <!-- Logo -->
     <div class="header-logo">
-      <img src="ressources/logos/logoV2.png" alt="Logo Couvreur Pro" />
+      <img src="ressources/logos/logoV2.png" alt="Logo Couvreur Pro" class="logo-desktop" />
+      <img src="ressources/logos/logo.png" alt="Logo Couvreur Pro" class="logo-mobile" />
     </div>
 
     <!-- Bouton hamburger (mobile) -->
@@ -2529,7 +2560,7 @@
         link.addEventListener('click', closeMobileMenu);
       });
       window.addEventListener('resize', () => {
-        if (window.innerWidth > 900) closeMobileMenu();
+        if (window.innerWidth > 1279) closeMobileMenu();
       });
     }
 
