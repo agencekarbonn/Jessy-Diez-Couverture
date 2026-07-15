@@ -2052,8 +2052,12 @@
 
       .cta-contact-list {
         display: grid !important;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
         gap: 22px 16px;
+      }
+
+      .cta-email-item {
+        display: none;
       }
 
       .cta-info-item {
@@ -2529,7 +2533,7 @@
             </span>
           </div>
         </div>
-        <div class="cta-info-item">
+        <div class="cta-info-item cta-email-item">
           <i class="fa-solid fa-envelope"></i>
           <div>
             <span class="cta-info-label">Email</span>
