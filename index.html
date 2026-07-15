@@ -13,12 +13,13 @@
       box-sizing: border-box;
     }
 
-    html, body {
+    html {
       max-width: 100%;
       overflow-x: hidden;
     }
 
     body {
+      max-width: 100%;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-image: url('https://www.guide-artisan.fr/img/actualites/comment-devenir-couvreur-zingueur.jpg');
       background-size: cover;
@@ -192,11 +193,23 @@
     .hero {
       height: 100vh;
       height: 100dvh;
-      background-image: url('heroV2.jpeg');
+      background-image: url('ressources/photos/heroV2.jpeg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: #ffffff;
+      z-index: 3;
+      pointer-events: none;
     }
 
     .triangle-top-left {
@@ -208,7 +221,6 @@
       background-color: #f5c400;
       clip-path: polygon(0 0, 100% 0, 0 100%);
       z-index: 4;
-      mix-blend-mode: multiply;
     }
 
     .triangle-bottom-right {
@@ -274,7 +286,7 @@
       top: 50%;
       left: 110px;
       transform: translateY(-50%);
-      z-index: 3;
+      z-index: 5;
       text-align: left;
     }
 
@@ -299,6 +311,8 @@
 
     .hero-content h1 span {
       color: #f5c400;
+      -webkit-text-stroke: 3px #000;
+      paint-order: stroke fill;
     }
 
     .hero-buttons {
@@ -1765,7 +1779,9 @@
         content: '';
         position: absolute;
         inset: 0;
-        background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.8) 100%);
+        background:
+          linear-gradient(to bottom, #ffffff 0px, #ffffff 80px, transparent 80px, transparent 100%),
+          linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.8) 100%);
         z-index: 1;
         pointer-events: none;
       }
@@ -2356,7 +2372,7 @@
           </div>
         </div>
         <div class="real-overlay">
-          <span class="realisation-tag">Couverture/Ardoiserie</span>
+          <span class="realisation-tag">Couverture</span>
           <p>Faites rénover votre toiture</p>
         </div>
       </div>
