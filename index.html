@@ -1749,6 +1749,12 @@
         min-height: 100vh;
         min-height: 100dvh;
         background-attachment: scroll;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 100px 24px 60px;
+        gap: 32px;
       }
 
       .triangle-top-left {
@@ -1768,9 +1774,15 @@
       }
 
       .hero-content {
-        left: 24px;
-        right: 24px;
-        max-width: calc(100% - 48px);
+        position: static;
+        order: 1;
+        max-width: 100%;
+        transform: translateY(24px);
+      }
+
+      body.loaded-hero .hero-content,
+      body.loaded-other .hero-content {
+        transform: translateY(0);
       }
 
       .hero-content h1 {
@@ -1783,17 +1795,30 @@
       }
 
       .badge-experience {
-        bottom: 24px;
-        right: 24px;
-        text-align: right;
+        position: static;
+        order: 2;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto auto auto;
+        column-gap: 14px;
+        align-items: center;
+        text-align: left;
       }
 
       .badge-toit {
-        width: 60px;
-        margin: 0 0 6px auto;
+        grid-row: 1 / 4;
+        grid-column: 1;
+        width: 48px;
+        margin: 0;
+      }
+
+      .badge-experience .label-top,
+      .badge-experience .label-bottom {
+        grid-column: 2;
       }
 
       .badge-experience .number {
+        grid-column: 2;
         font-size: 32px;
       }
 
@@ -2029,11 +2054,6 @@
       .hero-buttons a {
         flex: 1;
         justify-content: center;
-      }
-
-      .badge-experience {
-        bottom: 16px;
-        right: 16px;
       }
 
       .triangle-top-left {
