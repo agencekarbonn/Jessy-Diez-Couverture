@@ -1485,6 +1485,17 @@
       clip-path: polygon(100% 0, 100% 100%, 0 100%);
     }
 
+    .loader-video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 160px;
+      height: 160px;
+      object-fit: contain;
+      z-index: 2;
+    }
+
     /* === Sur la section accueil : formes se referment en triangle === */
     body.loaded-hero .curtain-left {
       clip-path: polygon(0 0, 460px 0, 0 100%);
@@ -2207,6 +2218,7 @@
   <div class="page-loader">
     <div class="curtain-left"></div>
     <div class="curtain-right"></div>
+    <video class="loader-video" src="ressources/videos/loader.webm" autoplay muted loop playsinline></video>
   </div>
 
   <header>
