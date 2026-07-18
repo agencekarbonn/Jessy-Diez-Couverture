@@ -1467,6 +1467,17 @@
       inset: 0;
       z-index: 9999;
       pointer-events: none;
+      background: #1a1a1a;
+    }
+
+    .loader-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 2;
+      transition: opacity 0.35s ease;
     }
 
     .curtain-left,
@@ -1485,17 +1496,6 @@
       clip-path: polygon(100% 0, 100% 100%, 0 100%);
     }
 
-    .loader-video {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 160px;
-      height: 160px;
-      object-fit: contain;
-      z-index: 2;
-    }
-
     /* === Sur la section accueil : formes se referment en triangle === */
     body.loaded-hero .curtain-left {
       clip-path: polygon(0 0, 460px 0, 0 100%);
@@ -1510,6 +1510,11 @@
     body.loaded-hero .page-loader {
       transition: visibility 0s linear 1.4s;
       visibility: hidden;
+    }
+
+    body.loaded-hero .loader-video,
+    body.loaded-other .loader-video {
+      opacity: 0;
     }
 
     /* === Sur les autres sections : rideaux quittent l'écran === */
@@ -2218,7 +2223,9 @@
   <div class="page-loader">
     <div class="curtain-left"></div>
     <div class="curtain-right"></div>
-    <video class="loader-video" src="ressources/videos/loader.webm" autoplay muted loop playsinline></video>
+    <video class="loader-video" autoplay muted playsinline preload="auto">
+      <source src="ressources/videos/loader.webm" type="video/webm">
+    </video>
   </div>
 
   <header>
@@ -2678,12 +2685,36 @@
       });
     }
 
-    // Animation de chargement contextuelle
-    window.addEventListener('load', () => {
+    const loaderVideo = document.querySelector('.loader-video');
+    let loadingAnimationStarted = false;
+
+    function startLoadingAnimation() {
+      if (loadingAnimationStarted) return;
+      loadingAnimationStarted = true;
+
       const isOnHero = window.scrollY < window.innerHeight * 0.5;
-      setTimeout(() => {
-        document.body.classList.add(isOnHero ? 'loaded-hero' : 'loaded-other');
-      }, 300);
+      document.body.classList.add(isOnHero ? 'loaded-hero' : 'loaded-other');
+    }
+
+    window.addEventListener('load', () => {
+      if (!loaderVideo || loaderVideo.ended) {
+        startLoadingAnimation();
+        return;
+      }
+
+      const loadingFallback = window.setTimeout(startLoadingAnimation, 15000);
+      loaderVideo.addEventListener('ended', () => {
+        window.clearTimeout(loadingFallback);
+        startLoadingAnimation();
+      }, { once: true });
+      loaderVideo.addEventListener('error', () => {
+        window.clearTimeout(loadingFallback);
+        startLoadingAnimation();
+      }, { once: true });
+      loaderVideo.play().catch(() => {
+        window.clearTimeout(loadingFallback);
+        startLoadingAnimation();
+      });
     });
 
     const sections = document.querySelectorAll('section[id]');
