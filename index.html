@@ -1467,7 +1467,6 @@
       inset: 0;
       z-index: 9999;
       pointer-events: none;
-      background: #1a1a1a;
     }
 
     .loader-video {
@@ -2697,21 +2696,60 @@
     }
 
     window.addEventListener('load', () => {
-      if (!loaderVideo || loaderVideo.ended) {
+      if (!loaderVideo) {
+        console.error('[Loader video] Élément vidéo introuvable.');
         startLoadingAnimation();
         return;
       }
 
-      const loadingFallback = window.setTimeout(startLoadingAnimation, 15000);
+      console.info('[Loader video] État au chargement :', {
+        currentSrc: loaderVideo.currentSrc,
+        readyState: loaderVideo.readyState,
+        networkState: loaderVideo.networkState,
+        duration: loaderVideo.duration,
+        ended: loaderVideo.ended
+      });
+
+      if (loaderVideo.ended) {
+        console.info('[Loader video] La vidéo est déjà terminée.');
+        startLoadingAnimation();
+        return;
+      }
+
+      loaderVideo.addEventListener('loadedmetadata', () => {
+        console.info('[Loader video] Métadonnées chargées :', { duration: loaderVideo.duration });
+      }, { once: true });
+      loaderVideo.addEventListener('canplay', () => {
+        console.info('[Loader video] Lecture possible.');
+      }, { once: true });
+      loaderVideo.addEventListener('playing', () => {
+        console.info('[Loader video] Lecture démarrée.');
+      }, { once: true });
+
+      const loadingFallback = window.setTimeout(() => {
+        console.warn('[Loader video] Délai maximum atteint, ouverture du site.');
+        startLoadingAnimation();
+      }, 15000);
+
       loaderVideo.addEventListener('ended', () => {
+        console.info('[Loader video] Lecture terminée.');
         window.clearTimeout(loadingFallback);
         startLoadingAnimation();
       }, { once: true });
       loaderVideo.addEventListener('error', () => {
+        const error = loaderVideo.error;
+        console.error('[Loader video] Erreur média :', {
+          code: error?.code,
+          message: error?.message,
+          currentSrc: loaderVideo.currentSrc,
+          networkState: loaderVideo.networkState,
+          readyState: loaderVideo.readyState
+        });
         window.clearTimeout(loadingFallback);
         startLoadingAnimation();
       }, { once: true });
-      loaderVideo.play().catch(() => {
+      loaderVideo.play().catch((error) => {
+        console.error('[Loader video] Échec de lecture :', error);
         window.clearTimeout(loadingFallback);
         startLoadingAnimation();
       });
