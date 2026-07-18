@@ -1462,6 +1462,12 @@
     }
 
     /* ===== Animation de chargement ===== */
+    body:not(.loaded-hero):not(.loaded-other) {
+      overflow: hidden;
+      height: 100vh;
+      height: 100dvh;
+    }
+
     .page-loader {
       position: fixed;
       inset: 0;
