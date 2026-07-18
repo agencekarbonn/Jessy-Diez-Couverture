@@ -2716,6 +2716,13 @@
         ended: loaderVideo.ended
       });
 
+      const canPlayWebm = typeof loaderVideo.canPlayType === 'function' && loaderVideo.canPlayType('video/webm');
+      if (!canPlayWebm) {
+        console.warn('[Loader video] Format webm non supporté, chargement instantané du site.');
+        startLoadingAnimation();
+        return;
+      }
+
       if (loaderVideo.ended) {
         console.info('[Loader video] La vidéo est déjà terminée.');
         startLoadingAnimation();
