@@ -153,13 +153,84 @@
       cursor: pointer;
       text-decoration: none;
       white-space: nowrap;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    /* Reflet lumineux qui balaie le bouton */
+    .btn-phone::before,
+    .btn-devis::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 55%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.35) 50%, transparent 100%);
+      transform: skewX(-20deg);
+      transition: left 0.6s ease;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .btn-phone:hover::before,
+    .btn-devis:hover::before {
+      left: 140%;
+    }
+
+    .btn-phone:active,
+    .btn-devis:active {
+      transform: translateY(0);
+    }
+
+    /* Libellés interchangeables au survol */
+    .btn-swap {
+      display: grid;
+      align-items: center;
+      justify-items: center;
+    }
+
+    .btn-swap > span {
+      grid-area: 1 / 1;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .btn-swap .btn-swap-hover {
+      opacity: 0;
+      transform: translateX(10px);
+    }
+
+    .btn-phone:hover .btn-swap-text,
+    .btn-devis:hover .btn-swap-text {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+
+    .btn-phone:hover .btn-swap-hover,
+    .btn-devis:hover .btn-swap-hover {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Balayage de l'icône de gauche à droite */
+    .btn-phone:hover i,
+    .btn-devis:hover i {
+      animation: btnIconSweep 0.5s ease;
+    }
+
+    @keyframes btnIconSweep {
+      0% { transform: translateX(0); opacity: 1; }
+      45% { transform: translateX(16px); opacity: 0; }
+      55% { transform: translateX(-16px); opacity: 0; }
+      100% { transform: translateX(0); opacity: 1; }
     }
 
     .btn-phone {
       background-color: #1a1a1a;
       color: #f5c400;
       border: 1px solid #1a1a1a;
-      transition: background-color 0.2s, border-color 0.2s;
+      transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
     }
 
     .btn-phone i {
@@ -170,18 +241,22 @@
     .btn-phone:hover {
       background-color: #333333;
       border-color: #333333;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
     }
 
     .btn-devis {
       background-color: #f5c400;
       color: #1a1a1a;
       border: 1px solid #f5c400;
-      transition: background-color 0.2s;
+      transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
     }
 
     .btn-devis:hover {
       background-color: #e0b200;
       border-color: #e0b200;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(245, 196, 0, 0.35);
     }
 
     /* Section hero */
@@ -193,7 +268,7 @@
     .hero {
       height: 100vh;
       height: 100dvh;
-      background-image: url('ressources/photos/heroV2.jpeg');
+      background-image: url('ressources/photos/hero-anim-fix.png');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -2241,10 +2316,17 @@
       <div class="header-actions">
         <a href="tel:0609361369" class="btn-phone">
           <i class="fa-solid fa-phone"></i>
-          06 09 36 13 69
+          <span class="btn-swap">
+            <span class="btn-swap-text">06 09 36 13 69</span>
+            <span class="btn-swap-hover" aria-hidden="true">J'appelle</span>
+          </span>
         </a>
         <a href="#contact" class="btn-devis">
-          Devis gratuit <i class="fa-solid fa-arrow-right"></i>
+          <span class="btn-swap">
+            <span class="btn-swap-text">Devis gratuit</span>
+            <span class="btn-swap-hover" aria-hidden="true">C'est parti !</span>
+          </span>
+          <i class="fa-solid fa-arrow-right"></i>
         </a>
       </div>
     </div>
@@ -2981,7 +3063,7 @@
           <h4>Mentions légales</h4>
           <ul>
             <li><a href="#">Politique de confidentialité</a></li>
-            <li><a href="#">CGV</a></li>
+            <li><a href="#">CGU</a></li>
           </ul>
         </div>
       </div>
