@@ -200,18 +200,6 @@
       position: relative;
     }
 
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 80px;
-      background: #ffffff;
-      z-index: 3;
-      pointer-events: none;
-    }
-
     .triangle-top-left {
       position: absolute;
       top: 0;
@@ -311,8 +299,19 @@
 
     .hero-content h1 span {
       color: #f5c400;
-      -webkit-text-stroke: 3px #000;
-      paint-order: stroke fill;
+    }
+
+    /* Copie du texte découpée sur le triangle : jaune plus foncé */
+    .hero-content-triangle {
+      position: absolute;
+      inset: 0;
+      clip-path: polygon(0 0, 460px 0, 0 100%);
+      z-index: 6;
+      pointer-events: none;
+    }
+
+    .hero-content-triangle .hero-content h1 span {
+      color: #9c7a00;
     }
 
     .hero-buttons {
@@ -1462,27 +1461,11 @@
     }
 
     /* ===== Animation de chargement ===== */
-    body:not(.loaded-hero):not(.loaded-other) {
-      overflow: hidden;
-      height: 100vh;
-      height: 100dvh;
-    }
-
     .page-loader {
       position: fixed;
       inset: 0;
       z-index: 9999;
       pointer-events: none;
-    }
-
-    .loader-video {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: 2;
-      transition: opacity 0.35s ease;
     }
 
     .curtain-left,
@@ -1515,11 +1498,6 @@
     body.loaded-hero .page-loader {
       transition: visibility 0s linear 1.4s;
       visibility: hidden;
-    }
-
-    body.loaded-hero .loader-video,
-    body.loaded-other .loader-video {
-      opacity: 0;
     }
 
     /* === Sur les autres sections : rideaux quittent l'écran === */
@@ -1800,9 +1778,7 @@
         content: '';
         position: absolute;
         inset: 0;
-        background:
-          linear-gradient(to bottom, #ffffff 0px, #ffffff 80px, transparent 80px, transparent 100%),
-          linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.8) 100%);
+        background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.8) 100%);
         z-index: 1;
         pointer-events: none;
       }
@@ -1827,7 +1803,8 @@
       }
 
       .triangle-top-left,
-      .triangle-bottom-right {
+      .triangle-bottom-right,
+      .hero-content-triangle {
         display: none;
       }
 
@@ -2228,9 +2205,6 @@
   <div class="page-loader">
     <div class="curtain-left"></div>
     <div class="curtain-right"></div>
-    <video class="loader-video" autoplay muted playsinline preload="auto">
-      <source src="ressources/videos/loader.webm" type="video/webm">
-    </video>
   </div>
 
   <header>
@@ -2297,6 +2271,16 @@
         <div class="hero-buttons">
           <a href="#contact" class="btn-devis">Devis gratuit <i class="fa-solid fa-arrow-right"></i></a>
           <a href="#services" class="btn-services">Nos services</a>
+        </div>
+      </div>
+      <div class="hero-content-triangle" aria-hidden="true">
+        <div class="hero-content">
+          <p class="subtitle">Artisan Couvreur</p>
+          <h1>PROTÉGEONS<br>CE QUI<br><span>COMPTE.</span></h1>
+          <div class="hero-buttons">
+            <span class="btn-devis">Devis gratuit <i class="fa-solid fa-arrow-right"></i></span>
+            <span class="btn-services">Nos services</span>
+          </div>
         </div>
       </div>
     </section>
@@ -2690,82 +2674,11 @@
       });
     }
 
-    const loaderVideo = document.querySelector('.loader-video');
-    let loadingAnimationStarted = false;
-
-    function startLoadingAnimation() {
-      if (loadingAnimationStarted) return;
-      loadingAnimationStarted = true;
-
-      const isOnHero = window.scrollY < window.innerHeight * 0.5;
-      document.body.classList.add(isOnHero ? 'loaded-hero' : 'loaded-other');
-    }
-
     window.addEventListener('load', () => {
-      if (!loaderVideo) {
-        console.error('[Loader video] Élément vidéo introuvable.');
-        startLoadingAnimation();
-        return;
-      }
-
-      console.info('[Loader video] État au chargement :', {
-        currentSrc: loaderVideo.currentSrc,
-        readyState: loaderVideo.readyState,
-        networkState: loaderVideo.networkState,
-        duration: loaderVideo.duration,
-        ended: loaderVideo.ended
-      });
-
-      const canPlayWebm = typeof loaderVideo.canPlayType === 'function' && loaderVideo.canPlayType('video/webm');
-      if (!canPlayWebm) {
-        console.warn('[Loader video] Format webm non supporté, chargement instantané du site.');
-        startLoadingAnimation();
-        return;
-      }
-
-      if (loaderVideo.ended) {
-        console.info('[Loader video] La vidéo est déjà terminée.');
-        startLoadingAnimation();
-        return;
-      }
-
-      loaderVideo.addEventListener('loadedmetadata', () => {
-        console.info('[Loader video] Métadonnées chargées :', { duration: loaderVideo.duration });
-      }, { once: true });
-      loaderVideo.addEventListener('canplay', () => {
-        console.info('[Loader video] Lecture possible.');
-      }, { once: true });
-      loaderVideo.addEventListener('playing', () => {
-        console.info('[Loader video] Lecture démarrée.');
-      }, { once: true });
-
-      const loadingFallback = window.setTimeout(() => {
-        console.warn('[Loader video] Délai maximum atteint, ouverture du site.');
-        startLoadingAnimation();
-      }, 15000);
-
-      loaderVideo.addEventListener('ended', () => {
-        console.info('[Loader video] Lecture terminée.');
-        window.clearTimeout(loadingFallback);
-        startLoadingAnimation();
-      }, { once: true });
-      loaderVideo.addEventListener('error', () => {
-        const error = loaderVideo.error;
-        console.error('[Loader video] Erreur média :', {
-          code: error?.code,
-          message: error?.message,
-          currentSrc: loaderVideo.currentSrc,
-          networkState: loaderVideo.networkState,
-          readyState: loaderVideo.readyState
-        });
-        window.clearTimeout(loadingFallback);
-        startLoadingAnimation();
-      }, { once: true });
-      loaderVideo.play().catch((error) => {
-        console.error('[Loader video] Échec de lecture :', error);
-        window.clearTimeout(loadingFallback);
-        startLoadingAnimation();
-      });
+      const isOnHero = window.scrollY < window.innerHeight * 0.5;
+      setTimeout(() => {
+        document.body.classList.add(isOnHero ? 'loaded-hero' : 'loaded-other');
+      }, 300);
     });
 
     const sections = document.querySelectorAll('section[id]');
