@@ -2160,40 +2160,109 @@
       }
 
       .services-left {
-        padding: 50px 24px 30px;
+        padding: 50px 24px 34px;
       }
 
       .services-left h2 {
         font-size: 30px;
       }
 
+      .services-garanties {
+        margin-top: 28px;
+        gap: 10px;
+      }
+
       .services-right {
-        padding: 30px 24px 50px;
-        overflow: hidden;
+        padding: 34px 20px 50px;
       }
 
       .services-grid {
-        display: flex;
-        grid-template-columns: unset;
-        gap: 12px;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        padding-bottom: 6px;
-        margin: 0 -24px;
-        padding-left: 24px;
-        padding-right: 24px;
-      }
-
-      .services-grid::-webkit-scrollbar {
-        display: none;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
       }
 
       .service-card {
-        scroll-snap-align: start;
-        flex: 0 0 240px;
-        min-width: 240px;
+        display: grid;
+        grid-template-columns: 44px 1fr;
+        align-items: start;
+        column-gap: 14px;
+        row-gap: 4px;
+        padding: 18px 16px;
+        border-left: 3px solid #f5c400;
+        border-radius: 4px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      }
+
+      .service-card::before {
+        display: none;
+      }
+
+      .service-card:hover,
+      .service-card:active {
+        background: #ffffff;
+        transform: none;
+      }
+
+      .service-card:hover h3 {
+        color: #1a1a1a;
+      }
+
+      .service-card:hover p {
+        color: #666;
+      }
+
+      .service-card:hover .service-icon {
+        background: #f5f5f5;
+        color: #f5c400;
+      }
+
+      .service-icon {
+        grid-row: span 2;
+        width: 44px;
+        height: 44px;
+        font-size: 18px;
+        margin-bottom: 0;
+      }
+
+      .service-card h3 {
+        align-self: center;
+        font-size: 15px;
+        margin-bottom: 0;
+      }
+
+      .service-card p {
+        font-size: 13px;
+        line-height: 1.55;
+      }
+
+      .service-card--accent {
+        border-left-color: #1a1a1a;
+      }
+
+      .service-card--accent:hover,
+      .service-card--accent:active {
+        background: #f5c400;
+      }
+
+      .service-card--accent:hover .service-icon {
+        background: rgba(0,0,0,0.1);
+        color: #1a1a1a;
+      }
+
+      .service-card--accent:hover .urgence-tel {
+        color: #f5c400;
+      }
+
+      .urgence-tel {
+        grid-column: 1 / -1;
+        justify-content: center;
+        margin-top: 12px;
+        padding: 11px 14px;
+        background: #1a1a1a;
+        color: #f5c400;
+        border-radius: 4px;
+        font-size: 14px;
       }
 
       /* À propos */
@@ -2225,51 +2294,76 @@
       }
 
       .realisations-grid {
-        display: flex;
-        grid-template-columns: unset;
-        grid-template-rows: unset;
-        gap: 12px;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        margin: 0 -24px;
-        padding: 0 24px 6px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: none;
+        grid-auto-rows: 148px;
+        gap: 8px;
       }
 
-      .realisations-grid::-webkit-scrollbar {
-        display: none;
-      }
-
-      .real-card,
-      .real-card--large {
-        scroll-snap-align: start;
+      .real-card {
         grid-column: auto;
         grid-row: auto;
-        flex: 0 0 330px;
-        min-width: 330px;
-        height: 330px;
+      }
+
+      .real-card--large {
+        grid-column: 1 / -1;
+        grid-row: span 2;
+      }
+
+      .real-card:hover .real-slides img.active {
+        transform: scale(1);
       }
 
       .real-overlay {
         opacity: 1;
-        background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 65%);
-        padding: 20px;
+        background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 70%);
+        padding: 14px;
       }
 
       .realisation-tag {
-        font-size: 11px;
-        padding: 4px 12px;
-        margin-bottom: 10px;
+        font-size: 10px;
+        padding: 3px 9px;
+        margin-bottom: 7px;
+        letter-spacing: 0.5px;
       }
 
       .real-overlay p {
+        font-size: 13px;
+        line-height: 1.35;
+      }
+
+      .real-card--large .realisation-tag {
+        font-size: 11px;
+        padding: 4px 12px;
+      }
+
+      .real-card--large .real-overlay p {
         font-size: 16px;
       }
 
-      /* Avis */
+      /* Avis : défilement tactile sur petits écrans */
+      .avis-marquee {
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        touch-action: pan-x;
+        -webkit-mask-image: none;
+        mask-image: none;
+        padding: 0 24px;
+      }
+
+      .avis-marquee::-webkit-scrollbar {
+        display: none;
+      }
+
+      .avis-track,
       .avis-marquee:hover .avis-track {
-        animation-play-state: running;
+        animation: none;
+        transform: none;
       }
 
       .avis-header {
@@ -2282,6 +2376,7 @@
 
       .avis-card {
         width: 280px;
+        scroll-snap-align: center;
       }
 
       .avis-stats {
@@ -2442,11 +2537,21 @@
         font-size: 24px;
       }
 
-      .real-card,
-      .real-card--large {
-        flex: 0 0 220px;
-        min-width: 220px;
-        height: 220px;
+      .realisations-grid {
+        grid-auto-rows: 128px;
+        gap: 6px;
+      }
+
+      .real-overlay {
+        padding: 12px;
+      }
+
+      .real-overlay p {
+        font-size: 12px;
+      }
+
+      .real-card--large .real-overlay p {
+        font-size: 15px;
       }
 
       .avis-stats {
@@ -2814,7 +2919,7 @@
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
-        <span class="stat-number" data-target="100" data-suffix="%">0</span>
+        <span class="stat-number" data-target="95" data-suffix="%">0</span>
         <span class="stat-label">Garantie décennale</span>
       </div>
     </div>
@@ -2850,7 +2955,7 @@
           <i class="fa-solid fa-location-dot"></i>
           <div>
             <span class="cta-info-label">Adresse</span>
-            <span class="cta-info-value">236 Chem. du Rondel<br>27180 Le Plessis-Grohan</span>
+            <span class="cta-info-value">Les Baux-Sainte-Croix (27180)</span>
           </div>
         </div>
         <div class="cta-info-item">
@@ -2864,7 +2969,7 @@
       </div>
     </div>
     <div class="cta-right">
-      <form class="cta-form" id="ctaForm" action="https://formspree.io/f/xnjendwz" method="POST">
+      <form class="cta-form" id="ctaForm" action="https://formspree.io/f/mykrlgap" method="POST">
         <h3>Demande de devis</h3>
         <p>Décrivez votre projet de toiture, nous vous recontactons rapidement.</p>
         <div class="form-row">
@@ -3080,8 +3185,11 @@
       starsEl.appendChild(star);
     }
 
-    // Duplication des cartes pour un défilement infini sans couture
-    avisTrack.innerHTML += avisTrack.innerHTML;
+    // Duplication des cartes pour un défilement infini sans couture (desktop uniquement)
+    const avisTouchQuery = window.matchMedia('(max-width: 768px)');
+    if (!avisTouchQuery.matches) {
+      avisTrack.innerHTML += avisTrack.innerHTML;
+    }
 
     // Carrousels section Réalisations (autoplay synchronisé avec bordure de progression)
     const realCarousels = [];
@@ -3388,7 +3496,7 @@
         <p>Le site <strong>jessydiez-couverture.fr</strong> a pour objectif de présenter l'activité professionnelle de :</p>
         <p><strong>Jessy Diez Couverture</strong></p>
         <p>Entreprise Individuelle (Micro-entreprise)<br>Représentée par : <strong>Jessy Diez</strong></p>
-        <p>Adresse :<br><strong>236 Chem. du Rondel</strong><br><strong>27180 Le Plessis-Grohan</strong><br><strong>France</strong></p>
+        <p>Adresse :<br><strong>Les Baux-Sainte-Croix (27180)</strong><br><strong>France</strong></p>
         <p>Téléphone : <strong>06 09 36 13 69</strong><br>Email : <a href="mailto:jessydiez@hotmail.fr">jessydiez@hotmail.fr</a></p>
         <p>Le site présente les prestations proposées par Jessy Diez Couverture dans le domaine de la couverture et des travaux liés à l'entretien et la rénovation des bâtiments.</p>
 
@@ -3665,7 +3773,7 @@
         <p>Le responsable du traitement des données personnelles collectées via le site est :</p>
         <p><strong>Jessy Diez Couverture</strong></p>
         <p>Entreprise Individuelle (Micro-entreprise)<br>Représentée par : <strong>Jessy Diez</strong></p>
-        <p>Adresse :<br><strong>236 Chem. du Rondel</strong><br><strong>27180 Le Plessis-Grohan</strong><br><strong>France</strong></p>
+        <p>Adresse :<br><strong>Les Baux-Sainte-Croix (27180)</strong><br><strong>France</strong></p>
         <p>Téléphone : <strong>06 09 36 13 69</strong><br>Email : <a href="mailto:jessydiez@hotmail.fr">jessydiez@hotmail.fr</a></p>
         <p>Jessy Diez Couverture est responsable de l'utilisation des données collectées dans le cadre des demandes de contact, demandes de devis et échanges commerciaux.</p>
 
