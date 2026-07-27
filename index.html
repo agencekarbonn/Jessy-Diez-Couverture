@@ -1728,6 +1728,25 @@
       pointer-events: none;
     }
 
+    .loader-animation {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 2;
+      width: min(420px, 72vw);
+      height: auto;
+      transform: translate(-50%, -50%);
+      object-fit: contain;
+      -webkit-mask-image: radial-gradient(ellipse at center, #000 48%, rgba(0,0,0,0.9) 62%, transparent 82%);
+      mask-image: radial-gradient(ellipse at center, #000 48%, rgba(0,0,0,0.9) 62%, transparent 82%);
+      transition: opacity 0.2s ease;
+    }
+
+    body.loaded-hero .loader-animation,
+    body.loaded-other .loader-animation {
+      opacity: 0;
+    }
+
     .curtain-left,
     .curtain-right {
       position: absolute;
@@ -2590,6 +2609,9 @@
   <div class="page-loader">
     <div class="curtain-left"></div>
     <div class="curtain-right"></div>
+    <video class="loader-animation" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+      <source src="ressources/videos/loader-anim.mp4" type="video/mp4">
+    </video>
   </div>
 
   <header>
@@ -2904,7 +2926,7 @@
     </div>
     <div class="avis-stats">
       <div class="stat-item">
-        <span class="stat-number" data-target="100" data-suffix="%">0</span>
+        <span class="stat-number" data-target="95" data-suffix="%">0</span>
         <span class="stat-label">Clients satisfaits</span>
       </div>
       <div class="stat-divider"></div>
@@ -2919,7 +2941,7 @@
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
-        <span class="stat-number" data-target="95" data-suffix="%">0</span>
+        <span class="stat-number" data-target="100" data-suffix="%">0</span>
         <span class="stat-label">Garantie décennale</span>
       </div>
     </div>
@@ -3033,9 +3055,24 @@
 
     // Header : fond blanc au scroll
     const header = document.querySelector('header');
-    window.addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', window.scrollY > 10);
+    const headerLogos = header.querySelectorAll('.header-logo img');
+    const scrolledLogoSrc = 'ressources/logos/logoV2-black.png';
+
+    headerLogos.forEach(logo => {
+      logo.dataset.defaultSrc = logo.getAttribute('src');
     });
+
+    function updateHeaderOnScroll() {
+      const isScrolled = window.scrollY > 10;
+      header.classList.toggle('scrolled', isScrolled);
+      headerLogos.forEach(logo => {
+        const nextSrc = isScrolled ? scrolledLogoSrc : logo.dataset.defaultSrc;
+        if (logo.getAttribute('src') !== nextSrc) logo.setAttribute('src', nextSrc);
+      });
+    }
+
+    updateHeaderOnScroll();
+    window.addEventListener('scroll', updateHeaderOnScroll, { passive: true });
 
     // Menu hamburger (mobile)
     const hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -3087,9 +3124,11 @@
 
     window.addEventListener('load', () => {
       const isOnHero = window.scrollY < window.innerHeight * 0.5;
+      const minimumLoaderDuration = 3000;
+      const remainingDuration = Math.max(0, minimumLoaderDuration - performance.now());
       setTimeout(() => {
         document.body.classList.add(isOnHero ? 'loaded-hero' : 'loaded-other');
-      }, 300);
+      }, remainingDuration);
     });
 
     const sections = document.querySelectorAll('section[id]');
