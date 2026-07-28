@@ -2609,7 +2609,7 @@
   <div class="page-loader">
     <div class="curtain-left"></div>
     <div class="curtain-right"></div>
-    <video class="loader-animation" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+    <video class="loader-animation" id="loaderVideo" autoplay muted loop playsinline webkit-playsinline x5-playsinline preload="auto" aria-hidden="true">
       <source src="ressources/videos/loader-anim.mp4" type="video/mp4">
     </video>
   </div>
@@ -3120,6 +3120,22 @@
       window.addEventListener('resize', () => {
         if (window.innerWidth > 1279) closeMobileMenu();
       });
+    }
+
+    const loaderVideo = document.getElementById('loaderVideo');
+    if (loaderVideo) {
+      loaderVideo.muted = true;
+      loaderVideo.defaultMuted = true;
+      loaderVideo.playsInline = true;
+      const attemptPlay = () => {
+        const playPromise = loaderVideo.play();
+        if (playPromise && typeof playPromise.then === 'function') {
+          playPromise.catch(() => {});
+        }
+      };
+      attemptPlay();
+      loaderVideo.addEventListener('loadeddata', attemptPlay);
+      loaderVideo.addEventListener('canplay', attemptPlay);
     }
 
     window.addEventListener('load', () => {
